@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:news_app_flutter/model/model.dart';
+import 'package:news_app_flutter/screen/newspage.dart';
+import 'package:news_app_flutter/service/service.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var news = News();
     return Scaffold(
       appBar: AppBar(
         leading: Container(
@@ -21,7 +25,12 @@ class HomePage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Container(),
+      body: FutureBuilder(
+        future: news.getNews(),
+        builder: (context, snapshot) => snapshot.data != null?
+        NewsPage( article: snapshot.data as List<Article>)
+            :Center(child: CircularProgressIndicator()),
+      ),
     );
   }
 }
