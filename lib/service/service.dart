@@ -8,12 +8,12 @@ String baseUrl = 'https://newsapi.org/v2';
 class News{
   Future<List<Article>?> getNews() async{
     List<Article>? list;
-    String url = '$baseUrl/top-headlines?country=id&apiKey=';
+    String url = '$baseUrl/top-headlines?country=id&apiKey=$apiKey';
     var response = await http.get(Uri.parse(url));
     if(response.statusCode == 200){
       var data = jsonDecode(response.body);
       var result = data['articles'] as List;
-      list = result.map((json) => Article.fromJson(json)).toList();
+      list = result.map<Article>((json) => Article.fromJson(json)).toList();
       return list;
     } else {
       throw Exception('Tidak dapat mengambil data berita');
@@ -27,7 +27,7 @@ class News{
     if(response.statusCode == 200){
       var data = jsonDecode(response.body);
       var result = data['articles'] as List;
-      list = result.map((json) => Article.fromJson(json)).toList();
+      list = result.map<Article>((json) => Article.fromJson(json)).toList();
       return list;
     } else {
       throw Exception('Tidak dapat mengambil data category');

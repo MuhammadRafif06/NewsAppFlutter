@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:news_app_flutter/model/model.dart';
 import 'package:news_app_flutter/utils/utils.dart';
 
+import '../screen/detailpage.dart';
+
 
 class CarouselWidget extends StatefulWidget {
   final List<Article> articleList;
+
   const CarouselWidget({Key? key, required this.articleList}) : super(key: key);
 
   @override
@@ -18,48 +21,52 @@ class _CarouselWidgetState extends State<CarouselWidget> {
   @override
   void initState() {
     imageSlider = widget.articleList.map((article) =>
-    Container(
-      margin: const EdgeInsets.all(10),
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: NetworkImage(article.urlToImage),
-                fit: BoxFit.cover
-              )
+    GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPage(article: article))),
+      child: Container(
+        margin: const EdgeInsets.all(10),
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(article.urlToImage),
+                  fit: BoxFit.cover
+                )
+              ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter,
-                end: Alignment.topCenter,
-                stops: const [0.1, 0.9],
-                colors: [
-                  Colors.black.withOpacity(0.8),
-                  Colors.white.withOpacity(0.1)
-                ]
-              )
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  stops: const [0.1, 0.9],
+                  colors: [
+                    Colors.black.withOpacity(0.8),
+                    Colors.white.withOpacity(0.1)
+                  ]
+                )
+              ),
             ),
-          ),
-          Positioned(
-              bottom: 30,
-              child: Container(
-                padding: const EdgeInsets.only(left: 30, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(article.title, style: titleArticleHeadLine.copyWith(fontSize: 12),),
-                    const SizedBox(height: 10,),
-                    Text(article.author, style: authorDateArticle.copyWith(fontSize: 10),)
-                  ],
-                ),
-              ))
-        ],
+            Positioned(
+                bottom: 30,
+                child: Container(
+                  width: 250,
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(article.title, style: titleArticleHeadLine.copyWith(fontSize: 12),),
+                      const SizedBox(height: 10,),
+                      Text(article.author, style: authorDateArticleHeadLine.copyWith(fontSize: 10),)
+                    ],
+                  ),
+                ))
+          ],
+        ),
       ),
     ),
     ).toList();
@@ -68,6 +75,7 @@ class _CarouselWidgetState extends State<CarouselWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSlider(items: imageSlider, options: CarouselOptions(autoPlay: true, viewportFraction: 1));
+    return CarouselSlider(items: imageSlider,
+        options: CarouselOptions(autoPlay: true, viewportFraction: 1));
   }
 }

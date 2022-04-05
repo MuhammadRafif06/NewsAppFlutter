@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
         future: news.getNews(),
         builder: (context, snapshot) => snapshot.data != null?
         NewsPage( article: snapshot.data as List<Article>)
-            :Center(child: CircularProgressIndicator()),
+              :Center(child: CircularProgressIndicator()),
       ),
     );
   }
